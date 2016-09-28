@@ -19,7 +19,7 @@
 
 	<span class="mdl-grid drive-item" ng-repeat="item in getDeletedFiles() track by $index"
 		multiple-selection-item ng-class="{'selecting-item': isSelecting ,'selected-item': isSelected}">
-		<span class="mdl-cell mdl-cell--7-col" ng-if="isSelected" ng-init="pushItem(this)">
+		<span class="mdl-cell mdl-cell--7-col">
 			<i class="material-icons">insert_drive_file</i>
 			{{ item.name }}.{{ item.extension }}
 		</span>
@@ -29,6 +29,7 @@
 </div>
 
 <div class="info-box">
+	<a ng-click="deleteItems()">Deletar items selecionados</a>
 	<li class="info-text">Para selecionar múltiplos itens use o <b>Ctrl</b></li>
 	<li class="info-text">Para excluir permanentemente os itens selecionados use o <b>Ctrl</b></li>
 </div>

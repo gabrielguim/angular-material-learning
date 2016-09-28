@@ -29,11 +29,12 @@
 	      return $scope.eoq;
 		};
 
-		$scope.selectedItems = [];
+		$scope.deleteItems = function () {
+			var _NodesArray = document.getElementById("drive").getElementsByClassName("selected-item");
 
-		$scope.pushItem = function (elem) {
-			console.log($scope.selectedItems);
-			$scope.selectedItems.push(elem);
+			for (var i = 0; i < _NodesArray.length; i++) {
+				_NodesArray[i].parent.removeChild(_NodesArray[i]);
+			}
 		};
 
 	});
