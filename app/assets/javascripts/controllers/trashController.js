@@ -34,7 +34,7 @@
     $scope.restoreFileDialog = function(ev, item){
       var confirm = $mdDialog.confirm()
         .title('Restaurar arquivo')
-        .textContent('Você realmente restaurar arquivo ' + name + '?')
+        .textContent('Você realmente restaurar arquivo ' + item.name + "." + item.extension + '?')
         .ariaLabel('Restaurar Arquivo')
         .targetEvent(ev)
         .ok('Restaurar')
