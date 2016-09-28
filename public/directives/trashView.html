@@ -7,8 +7,17 @@
 	</span>
 </div>
 
+<div class="panel delete-all">
+	<span class="mdl-grid drive-item drive-item-header">
+			<button ng-click="deleteSelectedItems()" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+				<i class="material-icons">delete_forever</i>
+				Excluir permanentemente. {{ selectedItems.length }} item(s) selecionados
+			</button>
+	</span>
+</div>
+
 <!-- container do drive -->
-<div id="drive" class="panel row">
+<div id="trash" class="panel row">
 	<!-- header da lista de arquivos -->
 	<span class="mdl-grid drive-item drive-item-header">
 		<span ng-repeat="property in gridHeaderTrash" class="mdl-cell mdl-cell--{{ property.col }}-col">
@@ -17,19 +26,24 @@
 		</span>
 	</span>
 
-	<span class="mdl-grid drive-item" ng-repeat="item in getDeletedFiles() track by $index"
+	<span class="mdl-grid drive-item" ng-repeat="item in deletedFiles track by $index"
 		multiple-selection-item ng-class="{'selecting-item': isSelecting ,'selected-item': isSelected}">
-		<span class="mdl-cell mdl-cell--7-col">
+		<span class="mdl-cell mdl-cell--6-col">
 			<i class="material-icons">insert_drive_file</i>
 			{{ item.name }}.{{ item.extension }}
 		</span>
 		<span class="mdl-cell mdl-cell--5-col">{{ item.updated_at | date }}</span>
+		<span class="mdl-cell mdl-cell--1-col">
+				<a ng-click="restoreFileDialog($event, item)">
+					<span><i class="material-icons">restore</i></span>
+					<md-tooltip>Restaurar arquivo</md-tooltip>
+				</a>
+		</span>
 	</span>
 
 </div>
 
 <div class="info-box">
-	<a ng-click="deleteItems()">Deletar items selecionados</a>
 	<li class="info-text">Para selecionar múltiplos itens use o <b>Ctrl</b></li>
 	<li class="info-text">Para excluir permanentemente os itens selecionados use o <b>Ctrl</b></li>
 </div>

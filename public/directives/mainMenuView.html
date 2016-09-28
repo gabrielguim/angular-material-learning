@@ -23,19 +23,4 @@
         </li>
     </ul>
 
-	<!-- título do menu de arquivos recentes -->
-	<h6>{{ recentHeader }}</h6>
-
-	<!-- lista de arquivos recentes -->
-	<ul>
-		<!-- o uso do 'track by $index' evita problemas se houver arquivos
-		com nomes iguais -->
-		<li ng-repeat="file in recentFiles track by $index">
-			<a>
-				<i class="material-icons">insert_drive_file</i>
-				<span class="no-priority">{{ file.name }}</span>
-			</a>
-		</li>
-	</ul>
-
 </div>

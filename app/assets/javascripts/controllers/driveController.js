@@ -331,6 +331,7 @@
 
 		var update = function (item){
 			$scope.getChildren(item.id);
+			$scope.getDeletedFiles();
 		};
 
 		$scope.setPropertyDrive = function(){
@@ -343,7 +344,7 @@
 		$scope.deleteFileDialog = function (ev, file){
 			var confirm = $mdDialog.confirm()
 				.title('Excluir arquivo')
-				.textContent('Você realmente deseja mover o item ' + name + ' para a lixeira?')
+				.textContent('Você realmente deseja mover o arquivo ' + file.name + "." + file.extension+ ' para a lixeira?')
 				.ariaLabel('Excluir Arquivo')
 				.targetEvent(ev)
 				.ok('Deletar')
@@ -358,6 +359,8 @@
 
 		$scope.deleteFile = function(file){
 
+			httpToolsService.request('GET', '/documents/delete-or-restore/' + file.id + '.json');
+
 			var toast = $mdToast.simple()
 				.textContent('Arquivo excluído com sucesso! (' + file.name + ')')
 				.action('DESFAZER')
@@ -366,13 +369,26 @@
 				.position("top right");
 
 			$mdToast.show(toast).then(function(response) {
-				//excluir o item aqui
-
 				if ( response == 'ok' ) {
-					// fazer o item.deleted = false
-					alert('You clicked the \'UNDO\' action.');
+					httpToolsService.request('GET', '/documents/delete-or-restore/' + file.id + '.json');
+
+					var toast = $mdToast.simple()
+						.textContent('Arquivo restaurado com sucesso! (' + file.name + ')')
+						.highlightAction(true)
+						.highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.
+						.position("top right");
+
+					$mdToast.show(toast)
+
+					$timeout(function () {
+						update($scope.currentFolder);
+					}, 50);
 				}
 			});
+
+			$timeout(function () {
+				update($scope.currentFolder);
+			}, 50);
 		};
 
 		$scope.singleItem = function(item){
