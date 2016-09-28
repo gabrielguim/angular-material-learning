@@ -9,13 +9,13 @@
 
 		$scope.eoq = [ {
 			name: "teste 1",
-			updated_at: "12312",
+			updated_at: "12312"
 		}, {
 			name: "teste 2",
-			updated_at: "12312",
+			updated_at: "12312"
 		}, {
 			name: "teste 3",
-			updated_at: "12312",
+			updated_at: "12312"
 		}];
 
 	    $scope.setPropertyTrash = function(){
@@ -30,11 +30,14 @@
 		};
 
 		$scope.deleteItems = function () {
-			var _NodesArray = document.getElementById("drive").getElementsByClassName("selected-item");
+			var _NodesArray = document.getElementById("drive").getElementsByClassName("drive-item");
+			var _DataArray = [];
 
-			for (var i = 0; i < _NodesArray.length; i++) {
-				_NodesArray[i].parent.removeChild(_NodesArray[i]);
-			}
+			for (var i = 0; i < _NodesArray.length; i++)
+				if (_NodesArray[i].className.indexOf("selected-item") === -1)
+					_DataArray.push($scope.eoq[i]);
+
+			$scope.eoq = _DataArray;
 		};
 
 	});
