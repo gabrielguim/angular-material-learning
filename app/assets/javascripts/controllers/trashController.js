@@ -55,7 +55,7 @@
       }, 50);
 
       var toast = $mdToast.simple()
-        .textContent('Arquivo restaurado com sucesso! (' + item.name + ')')
+        .textContent('Arquivo restaurado com sucesso! (' + item.name + "." + item.extension + ')')
         .highlightAction(true)
         .highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.
         .position("top right");
