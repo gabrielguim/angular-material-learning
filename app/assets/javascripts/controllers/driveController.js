@@ -362,7 +362,7 @@
 			httpToolsService.request('GET', '/documents/delete-or-restore/' + file.id + '.json');
 
 			var toast = $mdToast.simple()
-				.textContent('Arquivo excluído com sucesso! (' + file.name + ')')
+				.textContent('Arquivo excluído com sucesso! (' + file.name + "." + file.extension + ')')
 				.action('DESFAZER')
 				.highlightAction(true)
 				.highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.
@@ -373,7 +373,7 @@
 					httpToolsService.request('GET', '/documents/delete-or-restore/' + file.id + '.json');
 
 					var toast = $mdToast.simple()
-						.textContent('Arquivo restaurado com sucesso! (' + file.name + ')')
+						.textContent('Arquivo restaurado com sucesso! (' + file.name + "." + file.extension +  ')')
 						.highlightAction(true)
 						.highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.
 						.position("top right");
