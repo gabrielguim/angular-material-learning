@@ -19,10 +19,11 @@
 	</span>
 
 	<!-- lista de arquivos dentro da pasta atual sendo visitada -->
-	<span class="mdl-grid drive-item" ng-repeat="item in sharedContents track by $index">
+	<span class="mdl-grid drive-item" ng-repeat="item in sharedContents track by $index" multiple-selection-item
+		ng-class="{'selecting': isSelecting ,'selected': isSelected}">
 		<span class="mdl-cell mdl-cell--6-col" ng-click="openDocument(item)">
 			<i class="material-icons">insert_drive_file</i>
-			{{ item.name }}
+			{{ item.name }}.{{ item.extension }}
 		</span>
 		<span class="mdl-cell mdl-cell--3-col">{{ item.owner }}</span>
 		<span class="mdl-cell mdl-cell--2-col">{{ item.created_at | date }}</span>

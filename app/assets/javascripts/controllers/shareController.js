@@ -24,8 +24,31 @@
 		);
 
 		$scope.openDocument = function(document) {
-			httpToolsService.redirect('/documents/' + document.id + '/edit/');
+			if (document.selected){
+				httpToolsService.redirect('/documents/' + document.id + '/edit/');
+				return;
+			}
+
+			$scope.singleSharedItem(document);
+
 		};
+
+		$scope.singleSharedItem = function(item){
+			var allFiles = $scope.sharedContents;
+			for (var i = 0; i < allFiles.length; i++) {
+				allFiles[i].selected = false;
+			}
+
+			item.selected = !item.selected;
+		};
+
+		$scope.setPropertyShare = function(){
+			var files = $scope.sharedContents;
+			for (var i = 0; i < files.length; i++) {
+				files[i].selected = false;
+			}
+		};
+
 
 		$scope.getPermission = function(item) {
 			if (item.permission === 'Editar')
@@ -40,6 +63,6 @@
 			{ name: 'Última Modificação', icon: 'access_time', col: 2 },
 			{ name: 'Permissões', icon: 'info_outline', col: 1 }
 		];
-		
+
 	});
 })();

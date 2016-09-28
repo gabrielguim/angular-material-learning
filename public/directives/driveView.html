@@ -19,12 +19,12 @@
 
 	<!-- lista de arquivos dentro da pasta atual sendo visitada -->
 	<span class="mdl-grid drive-item" ng-repeat="item in contents track by $index" multiple-selection-item
-		ng-class="{'selecting': item.type === 'file' && isSelecting ,'selected': item.type === 'file' && isSelected}"
+		ng-class="{'selecting': isSelecting ,'selected': isSelected}"
 			ng-click="fileAction(item)">
 
 		<span class="mdl-cell mdl-cell--5-col">
 			<i class="material-icons">{{ getIcon(item) }}</i>
-			{{ item.name }}
+			{{ item.name }}<span ng-show="item.type === 'file'">.{{ item.extension }}</span>
 		</span>
 		<span class="mdl-cell mdl-cell--5-col">{{ item.updated_at | date}}</span>
 		<span class="mdl-cell mdl-cell--2-col">
@@ -43,6 +43,12 @@
 		</span>
 	</span>
 </div>
+
+<div class="info-box">
+	<li class="info-text">Para selecionar múltiplos itens use o <b>Ctrl</b></li>
+	<li class="info-text">Para excluis os itens selecionados use o <b>Ctrl</b></li>
+</div>
+
 <div class="mdl-button__footer">
 	<button class="mdl-button mdl-button--fab mdl-button--colored mdl-button_ofleft" ng-click="createFileDialog($event)">
   	<i class="material-icons">note_add</i>

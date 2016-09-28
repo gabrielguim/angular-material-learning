@@ -70,15 +70,15 @@
 		// action() when a file or folder is clicked on the list.
 		$scope.fileAction = function (item) {
 
-
 			if (item.type === 'file'){
 				if (item.selected){
 					httpToolsService.redirect('/documents/' + item.id + '/edit/');
 					return;
 				}
 			} else {
-				// sets the current folder and contents
-				$scope.setCurrentFolder(item);
+				if (item.selected){
+					$scope.setCurrentFolder(item);
+				}
 			}
 
 			$scope.singleItem(item);
@@ -333,11 +333,61 @@
 			$scope.getChildren(item.id);
 		};
 
-		$scope.setProperty = function(){
+		$scope.setPropertyDrive = function(){
 			var files = $scope.contents;
 			for (var i = 0; i < files.length; i++) {
-				files[i]['selected'] = false;
+				files[i].selected = false;
 			}
+		};
+
+		$scope.deleteSelectedItems = function(ev) {
+			var confirm = $mdDialog.confirm()
+				.title('Excluir arquivo')
+				.textContent('Você realmente deseja mover o item ' + name + ' para a lixeira?')
+				.ariaLabel('Excluir Arquivo')
+				.targetEvent(ev)
+				.ok('Deletar')
+				.cancel('Cancelar');
+
+			$mdDialog.show(confirm).then(function() {
+				$scope.deleteFile(file);
+			}, function() {
+
+			});
+		};
+
+		$scope.deleteFileDialog = function (ev, file){
+			var confirm = $mdDialog.confirm()
+				.title('Excluir arquivo')
+				.textContent('Você realmente deseja mover o item ' + name + ' para a lixeira?')
+				.ariaLabel('Excluir Arquivo')
+				.targetEvent(ev)
+				.ok('Deletar')
+				.cancel('Cancelar');
+
+			$mdDialog.show(confirm).then(function() {
+				$scope.deleteFile(file);
+			}, function() {
+
+			});
+		};
+
+		$scope.deleteFile = function(file){
+
+			var toast = $mdToast.simple()
+				.textContent('Arquivo excluído com sucesso! (' + file.name + ')')
+				.action('DESFAZER')
+				.highlightAction(true)
+				.highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.
+				.position("top right");
+
+			$mdToast.show(toast).then(function(response) {
+				if ( response == 'ok' ) {
+					alert('You clicked the \'UNDO\' action.');
+				} else {
+					console.log(file);
+				}
+			});
 		};
 
 		$scope.singleItem = function(item){

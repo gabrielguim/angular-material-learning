@@ -7,15 +7,6 @@
 	</span>
 </div>
 
-<div class="panel delete-all">
-	<span class="mdl-grid drive-item drive-item-header">
-			<button ng-click="deleteFiles()" class="mdl-button mdl-js-button mdl-button--raised">
-				<i class="material-icons">delete_forever</i>
-				Excluir permanentemente. {{ selectedItems.length }} item(s) selecionados
-			</button>
-	</span>
-</div>
-
 <!-- container do drive -->
 <div id="drive" class="panel row">
 	<!-- header da lista de arquivos -->
@@ -29,9 +20,14 @@
 	<span class="mdl-grid drive-item" ng-repeat="item in getDeletedFiles() track by $index" multiple-selection-item ng-class="{'selecting': isSelecting ,'selected': isSelected}">
 		<span class="mdl-cell mdl-cell--7-col">
 			<i class="material-icons">insert_drive_file</i>
-			{{ item.name }}
+			{{ item.name }}.{{ item.extension }}
 		</span>
 		<span class="mdl-cell mdl-cell--5-col">{{ item.updated_at | date}}</span>
 	</span>
 
+</div>
+
+<div class="info-box">
+	<li class="info-text">Para selecionar múltiplos itens use o <b>Ctrl</b></li>
+	<li class="info-text">Para excluir permanentemente os itens selecionados use o <b>Ctrl</b></li>
 </div>
