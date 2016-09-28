@@ -18,15 +18,22 @@
 			updated_at: "12312",
 		}];
 
-    $scope.setPropertyTrash = function(){
-      var deletedItems = $scope.getDeletedFiles();
-      for (var i = 0; i < deletedItems.length; i++) {
-        deletedItems[i].selected = false;
-      }
-    };
+	    $scope.setPropertyTrash = function(){
+	      var deletedItems = $scope.getDeletedFiles();
+	      for (var i = 0; i < deletedItems.length; i++) {
+	        deletedItems[i].selected = false;
+	      }
+	    };
 
 		$scope.getDeletedFiles = function () {
-      return $scope.eoq;
+	      return $scope.eoq;
+		};
+
+		$scope.selectedItems = [];
+
+		$scope.pushItem = function (elem) {
+			console.log($scope.selectedItems);
+			$scope.selectedItems.push(elem);
 		};
 
 	});

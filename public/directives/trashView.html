@@ -19,7 +19,7 @@
 
 	<span class="mdl-grid drive-item" ng-repeat="item in getDeletedFiles() track by $index"
 		multiple-selection-item ng-class="{'selecting-item': isSelecting ,'selected-item': isSelected}">
-		<span class="mdl-cell mdl-cell--7-col">
+		<span class="mdl-cell mdl-cell--7-col" ng-if="isSelected" ng-init="pushItem(this)">
 			<i class="material-icons">insert_drive_file</i>
 			{{ item.name }}.{{ item.extension }}
 		</span>
