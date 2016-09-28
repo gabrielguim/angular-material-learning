@@ -1,22 +1,22 @@
 (function () {
 	angular.module('ScribeApp')
-	.controller('trashController', function ($scope, trash, $mdDialog, $mdToast) {
+	.controller('trashController', function ($scope, trash, $cookies, $mdDialog, $mdToast, httpToolsService) {
+		var currentUserID = $cookies.getObject('current_user_id');
 
 		$scope.gridHeaderTrash = [
 			{ name: 'Nome', icon: 'sort_by_alpha', col: 7 },
 			{ name: 'Última Modificação', icon: 'access_time', col: 5 }
 		];
 
-		$scope.eoq = [ {
-			name: "teste 1",
-			updated_at: "12312",
-		}, {
-			name: "teste 2",
-			updated_at: "12312",
-		}, {
-			name: "teste 3",
-			updated_at: "12312",
-		}];
+		httpToolsService.request('GET', '/documents/trash/' + currentUserID + '.json').then(
+			function success(res) {
+				$scope.deletedFiles = res.data;
+			},
+
+			function error(err) {
+				console.log(err);
+			}
+		);
 
     $scope.setPropertyTrash = function(){
       var deletedItems = $scope.getDeletedFiles();
@@ -26,7 +26,7 @@
     };
 
 		$scope.getDeletedFiles = function () {
-      return $scope.eoq;
+      return $scope.deletedFiles;
 		};
 
 	});

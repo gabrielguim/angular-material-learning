@@ -6,6 +6,7 @@ class CreateDocuments < ActiveRecord::Migration[5.0]
       t.string :name
       t.text :content
       t.string :extension
+      t.boolean :deleted, default: false
       t.timestamps
     end
   end

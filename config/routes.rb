@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   resources :documents
   get 'documents/children/:folder_id' => 'documents#find_children'
   get 'documents/shared/:user_id' => 'documents#find_shared'
+  get 'documents/delete-or-restore/:id' => 'documents#toggle_deleted'
+  get 'documents/trash/:user_id' => 'documents#find_user_trash'
 
   # Routes for folders
   resources :folders, :path => 'my-drive'

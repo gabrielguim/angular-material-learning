@@ -18,8 +18,9 @@ ActiveRecord::Schema.define(version: 20160913165502) do
     t.string   "name"
     t.text     "content"
     t.string   "extension"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.boolean  "deleted",    default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.index ["folder_id"], name: "index_documents_on_folder_id"
     t.index ["user_id"], name: "index_documents_on_user_id"
   end
