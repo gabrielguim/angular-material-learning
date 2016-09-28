@@ -18,15 +18,26 @@
 			}
 		);
 
-    $scope.setPropertyTrash = function(){
-      var deletedItems = $scope.getDeletedFiles();
-      for (var i = 0; i < deletedItems.length; i++) {
-        deletedItems[i].selected = false;
-      }
-    };
+	    $scope.setPropertyTrash = function(){
+	      var deletedItems = $scope.getDeletedFiles();
+	      for (var i = 0; i < deletedItems.length; i++) {
+	        deletedItems[i].selected = false;
+	      }
+	    };
 
 		$scope.getDeletedFiles = function () {
       return $scope.deletedFiles;
+		};
+
+		$scope.deleteItems = function () {
+			var _NodesArray = document.getElementById("drive").getElementsByClassName("drive-item");
+			var _DataArray = [];
+
+			for (var i = 0; i < _NodesArray.length; i++)
+				if (_NodesArray[i].className.indexOf("selected-item") === -1)
+					_DataArray.push($scope.deletedFiles[i]);
+
+			$scope.deletedFiles = _DataArray;
 		};
 
 	});
