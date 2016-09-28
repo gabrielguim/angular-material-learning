@@ -340,22 +340,6 @@
 			}
 		};
 
-		$scope.deleteSelectedItems = function(ev) {
-			var confirm = $mdDialog.confirm()
-				.title('Excluir arquivo')
-				.textContent('Você realmente deseja mover o item ' + name + ' para a lixeira?')
-				.ariaLabel('Excluir Arquivo')
-				.targetEvent(ev)
-				.ok('Deletar')
-				.cancel('Cancelar');
-
-			$mdDialog.show(confirm).then(function() {
-				$scope.deleteFile(file);
-			}, function() {
-
-			});
-		};
-
 		$scope.deleteFileDialog = function (ev, file){
 			var confirm = $mdDialog.confirm()
 				.title('Excluir arquivo')
@@ -382,10 +366,11 @@
 				.position("top right");
 
 			$mdToast.show(toast).then(function(response) {
+				//excluir o item aqui
+
 				if ( response == 'ok' ) {
+					// fazer o item.deleted = false
 					alert('You clicked the \'UNDO\' action.');
-				} else {
-					console.log(file);
 				}
 			});
 		};

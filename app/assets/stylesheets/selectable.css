@@ -6,10 +6,10 @@
     z-index: 9999;
 }
 
-.selected {
+.selected-item {
     background-color: #c4dcff !important;
 }
 
-.selecting {
+.selecting-item {
     background-color: #d7e7ff !important;
 }
