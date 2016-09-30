@@ -1,6 +1,6 @@
 class FoldersController < ApplicationController
   require 'json'
-  before_action :is_logged_in?, only: [:index]
+  before_action :is_logged_in?, :generate_token, only: [:index]
   layout 'drive', only: [:index]
 
   def format_js?
