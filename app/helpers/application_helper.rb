@@ -5,7 +5,7 @@ module ApplicationHelper
     path = request.path
     controller = path.split('/')[1]
 
-    if session[:current_user_id]
+    if session[:current_user_id] and cookies[:authentication_token]
       # caso haja sessao e o usuario tente acessar algo que nao seja seu drive, redirecione-o para o drive dele, a nao ser que o usuario esteja utilizando a funçao de editor do sistema
       redirect_to_drive if path != '/my-drive' unless controller == 'documents'
       return true
