@@ -14,7 +14,7 @@ module AuthHelper
 
   def generate_token
     cookies.encrypted[:authentication_token] = {
-      value: user.id.to_s + Time.now.to_i.to_s,
+      value: 'scribe-' + Time.now.to_i.to_s,
       expires: 1.day.from_now
     }
   end
