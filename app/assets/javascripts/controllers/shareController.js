@@ -3,6 +3,8 @@
 	.controller('shareController', function ($scope, $cookies, $timeout, share, httpToolsService) {
 		var current_user_id = $cookies.getObject('current_user_id');
 
+		$scope.sharedContents = [];
+
 		share.getSharedFiles(current_user_id).then(
 			function (res) {
 				for (var i = 0; i < res.data.length; i++) {
@@ -49,7 +51,6 @@
 			}
 		};
 
-
 		$scope.getPermission = function(item) {
 			if (item.permission === 'Editar')
 				return 'edit';
@@ -63,6 +64,10 @@
 			{ name: 'Última Modificação', icon: 'access_time', col: 2 },
 			{ name: 'Permissões', icon: 'info_outline', col: 1 }
 		];
+
+		$scope.sharedIsEmpty = function (){
+				return $scope.sharedContents.length === 0;
+		}
 
 	});
 })();

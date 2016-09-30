@@ -1,4 +1,4 @@
-<a ng-repeat="message in messages" class="message">
+<a ng-repeat="message in messages" class="message" ng-show="!messagesIsEmpty()">
     <div class="message-header">
         <span class="sender">De: {{ message.sender_name }}</span>
         <span class="date">{{ message.updated_at | date}}</span>
@@ -7,4 +7,14 @@
         <span>{{ message.message }}</span>
     </div>
     <md-tooltip md-direction="right">Enviado por: {{ message.sender_email }}</mid-tooltip>
+</a>
+
+<a class="message" ng-show="messagesIsEmpty()">
+  <div class="message-header">
+      <span>De: Equipe Scribe</span>
+  </div>
+  <div class="message-body">
+      <span>Nenhuma notificação a ser exibida.</span>
+  </div>
+  <md-tooltip md-direction="right">Enviado por: Equipe Scribe</mid-tooltip>
 </a>

@@ -13,5 +13,9 @@
 			function (err) { console.log(err) }
 		);
 
+		$scope.messagesIsEmpty = function () {
+			return $scope.messages.length === 0;
+		};
+
 	});
 })();

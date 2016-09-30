@@ -9,6 +9,8 @@
       { name: 'Ação', icon: 'code', col: 1}
 		];
 
+		$scope.deletedFiles = [];
+
     httpToolsService.request('GET', '/documents/trash/' + currentUserID + '.json').then(
       function success(res) {
         $scope.deletedFiles = res.data;
@@ -51,7 +53,7 @@
       httpToolsService.request('GET', '/documents/delete-or-restore/' + item.id + '.json');
 
       $timeout(function () {
-        updateTrash(item);
+        updateTrash();
       }, 50);
 
       var toast = $mdToast.simple()
@@ -64,9 +66,9 @@
 
     };
 
-    var updateTrash = function (item){
-      $scope.getDeletedFiles();
+    var updateTrash = function (){
 			$scope.getChildren($scope.pagination.length);
+			$scope.getDeletedFiles();
     };
 
     // $scope.deleteItems = function(content){
@@ -87,6 +89,10 @@
 					_DataArray.push($scope.deletedFiles[i]);
 
       console.log(_DataArray);
+		};
+
+		$scope.trashIsEmpty = function (){
+			return $scope.deletedFiles.length === 0;
 		};
 
 	});

@@ -12,6 +12,25 @@
   margin-right: 10px;
 }
 
+.empty-list {
+  text-align: center;
+  margin-top: 5%;
+}
+
+.empty-logo{
+  margin-top: 50px;
+  width: 10%;
+  height: 10%;
+  -webkit-filter: drop-shadow(1px 1px 20px black) grayscale(0.4) opacity(0.8);
+}
+
+.empty-text {
+  color: #767676;
+  margin: 50px;
+  font-family:'Helvetica Neue';
+  font-size: 150%;
+}
+
 .dialog-title {
   margin-left: 25px;
 }
@@ -23,6 +42,7 @@
 .info-box{
   margin-top: 10%;
 }
+
 .info-text {
   text-align: center;
   color: #767676;

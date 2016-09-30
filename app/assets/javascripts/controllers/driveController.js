@@ -331,7 +331,6 @@
 
 		var update = function (item){
 			$scope.getChildren(item.id);
-			$scope.getDeletedFiles();
 		};
 
 		$scope.setPropertyDrive = function(){
@@ -398,6 +397,10 @@
 			}
 
 			item.selected = !item.selected;
+		};
+
+		$scope.driveIsEmpty = function (){
+			return $scope.contents.length === 0;
 		};
 
 	});

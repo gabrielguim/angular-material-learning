@@ -7,8 +7,17 @@
 	</span>
 </div>
 
+<div ng-show="sharedIsEmpty()">
+  <div class="layout-transparent empty-list mdl-layout mdl-js-layout">
+    <main>
+      <img class="empty-logo" src="imgs/logo.png"/>
+    </main>
+    <span class="empty-text">Nenhum arquivo foi compartilhado com você.</span>
+  </div>
+</div>
+
 <!-- container do drive -->
-<div id="drive" class="panel">
+<div id="drive" class="panel" ng-show="!sharedIsEmpty()">
 
 	<!-- header da lista de arquivos -->
 	<span class="mdl-grid drive-item drive-item-header">

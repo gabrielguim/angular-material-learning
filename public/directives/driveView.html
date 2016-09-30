@@ -7,8 +7,19 @@
 		<i class="material-icons" ng-if="!showArrow($index)">keyboard_arrow_right</i>
 	</span>
 </div>
+
+<div ng-show="driveIsEmpty()">
+  <div class="layout-transparent empty-list mdl-layout mdl-js-layout">
+    <main>
+      <img class="empty-logo" src="imgs/logo.png"/>
+    </main>
+    <span class="empty-text">Você não possui nenhum arquivo criado. </span>
+
+  </div>
+</div>
+
 <!-- container do drive -->
-<div id="drive" class="panel">
+<div id="drive" class="panel" ng-show="!driveIsEmpty()">
 	<!-- header da lista de arquivos -->
 	<span class="mdl-grid drive-item drive-item-header">
 		<span ng-repeat="property in gridHeaderDrive" class="mdl-cell mdl-cell--{{ property.col }}-col">
@@ -44,18 +55,18 @@
 	</span>
 </div>
 
-<div class="info-box">
+<div class="info-box" ng-show="!driveIsEmpty()">
 	<li class="info-text">Para selecionar múltiplos itens use o <b>Ctrl</b></li>
 	<li class="info-text">Para excluis os itens selecionados use o <b>Ctrl</b></li>
 </div>
 
 <div class="mdl-button__footer">
-	<button class="mdl-button mdl-button--fab mdl-button--colored mdl-button_ofleft" ng-click="createFileDialog($event)">
-  	<i class="material-icons">note_add</i>
+	<button ng-click="createFileDialog($event)" class="mdl-button mdl-button--fab mdl-button--colored mdl-button_ofleft">
+		<i class="material-icons">note_add</i>
 		<md-tooltip md-direction="top">Novo documento</md-tooltip>
-  </button>
-  <button class="mdl-button mdl-button--fab mdl-button--colored" ng-click="createFolderDialog($event)">
-  	<i class="material-icons">create_new_folder</i>
+	</button>
+	<button ng-click="createFolderDialog($event)" class="mdl-button mdl-button--fab mdl-button--colored">
+		<i class="material-icons">create_new_folder</i>
 		<md-tooltip md-direction="top">Nova pasta</md-tooltip>
-  </button>
+	</button>
 </div>
