@@ -22,7 +22,7 @@
   	        	<span class="pagination-item pagination-root">
   	            	<div class="mdl-textfield mdl-js-textfield">
   	            		<!-- Nome do arquivo no input em >< -->
-  						      <input ng-disabled="viewOnly" class="mdl-textfield__input" type="text" placeholder="Documento sem título" ng-model="document.name">
+  						      <input ng-disabled="viewOnly" class="mdl-textfield__input" type="text" placeholder="Documento sem título" ng-model="editDocument.name">
   					      </div>
   	        	</span>
 	      	  </div>
@@ -32,8 +32,8 @@
         		<div class="mdl-navigation mdl-layout--large-screen-only">
               <span class="pagination-item">Extensão:</span>
           		<main class="mdl-layout__content">
-      					<button class="mdl-button mdl-button--raised" ng-class="{'active': (document.extension === 'txt')}" ng-disabled="viewOnly" ng-click="changeFileExtension('txt')" style="color: #fafafa">TXT</button>
-      					<button class="mdl-button mdl-button--raised" ng-class="{'active': (document.extension === 'md')}" ng-disabled="viewOnly" ng-click="changeFileExtension('md')" style="color: #fafafa">MD</button>
+      					<button class="mdl-button mdl-button--raised" ng-class="{'active': (editDocument.extension === 'txt')}" ng-disabled="viewOnly" ng-click="changeFileExtension('txt')" style="color: #fafafa">TXT</button>
+      					<button class="mdl-button mdl-button--raised" ng-class="{'active': (editDocument.extension === 'md')}" ng-disabled="viewOnly" ng-click="changeFileExtension('md')" style="color: #fafafa">MD</button>
     				  </main>
         		</div>
         </header>

@@ -46,7 +46,7 @@ class PoliciesController < ApplicationController
   end
 
   def find_document_policy
-    policies = Policy.find_by(document_id: params[:document_id])
+    policies = Policy.where(document_id: params[:document_id])
 
     respond_to do |format|
       format.json {

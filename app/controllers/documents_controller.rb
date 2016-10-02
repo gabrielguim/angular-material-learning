@@ -28,7 +28,7 @@ class DocumentsController < ApplicationController
     shared_documents = []
 
     policies.each do |policy|
-      document = Document.find(policy.document_id, deleted: false)
+      document = Document.find(policy.document_id)
       document.owner = document.user.first_name + ' ' + document.user.last_name
       document.permission = policy.permission
       shared_documents.push(document)
@@ -72,7 +72,7 @@ class DocumentsController < ApplicationController
   end
 
   def show
-    document = Document.find(params[:id], deleted: false)
+    document = Document.where(id: params[:id], deleted: false)
     respond_to do |format|
       format.html
       format.json {

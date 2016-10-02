@@ -4,10 +4,11 @@
 		var currentUserID = $cookies.getObject('current_user_id');
 		var pathName = window.location.pathname;
 
+
 		$scope.document_id = pathName.split('/')[2];
 
-		var isDocumentShared = function(document) {
-			return document.user_id !== currentUserID;
+		var isDocumentShared = function(file) {
+			return file.user_id !== currentUserID;
 		};
 
     httpToolsService.request('GET', '/documents/' + $scope.document_id + '.json', '').then(
@@ -15,15 +16,17 @@
 				$timeout(function () {
 					var currentDocument = res.data;
 
-					$scope.document = currentDocument;
-					$scope.fileContent = $sce.trustAsHtml(res.data.content);
-				}, 10);
+					$scope.editDocument = currentDocument[0];
+					$scope.fileContent = $sce.trustAsHtml(res.data[0].content);
+
+				}, 50);
 
 				// if current document is shared, verify current user's permission to that file
-				if (isDocumentShared(res.data)) {
+				if (isDocumentShared(res.data[0])) {
 					httpToolsService.request('GET', '/policies/document/' + $scope.document_id + '.json', '').then(
 						function (res) {
-							var documentPolicy = res.data;
+
+							var documentPolicy = res.data[0];
 							$scope.viewOnly = (documentPolicy.permission === 'r');
 
 							if ($scope.viewOnly) {
@@ -33,7 +36,8 @@
 
 						function (err) { console.log(err); }
 					)
-				}
+				};
+
 			},
 
 			function (err) { console.log(err); }
@@ -44,7 +48,7 @@
 		}
 
 		$scope.changeFileExtension = function (extension) {
-			$scope.document.extension = extension;
+			$scope.editDocument.extension = extension;
 
 			$mdToast.show(
 				$mdToast.simple()
@@ -58,15 +62,15 @@
       var token = $('meta[name=csrf-token]').attr("content");
 
 			var fileContent = $('#file-content').html();
-			if ($scope.document.extension === 'txt') {
+			if ($scope.editDocument.extension === 'txt') {
 				fileContent = $('#file-content').text();
 			}
 
       var config = {
         authenticity_token: token,
         file: {
-          name: $scope.document.name,
-          extension: $scope.document.extension,
+          name: $scope.editDocument.name,
+          extension: $scope.editDocument.extension,
           content: fileContent
         }
       };
@@ -76,7 +80,7 @@
 					if (res.data.success) {
 						$mdToast.show(
 							$mdToast.simple()
-								.textContent('Seu arquivo ' + $scope.document.name + '.' + $scope.document.extension + ' foi salvo com sucesso! :)')
+								.textContent('Seu arquivo ' + $scope.editDocument.name + '.' + $scope.editDocument.extension + ' foi salvo com sucesso! :)')
 								.position('bottom left')
 								.hideDelay(5000)
 						);

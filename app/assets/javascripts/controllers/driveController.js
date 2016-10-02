@@ -331,6 +331,7 @@
 
 		var update = function (item){
 			$scope.getChildren(item.id);
+			angular.element($('#trash')).scope().getDeletedFiles();
 		};
 
 		$scope.setPropertyDrive = function(){
@@ -381,13 +382,15 @@
 
 					$timeout(function () {
 						update($scope.currentFolder);
-					}, 50);
+					}, 30);
+
 				}
 			});
 
 			$timeout(function () {
 				update($scope.currentFolder);
-			}, 50);
+			}, 30);
+
 		};
 
 		$scope.singleItem = function(item){

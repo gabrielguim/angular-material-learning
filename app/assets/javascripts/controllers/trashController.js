@@ -1,6 +1,6 @@
 (function () {
 	angular.module('ScribeApp')
-	.controller('trashController', function ($scope, trash, $cookies, $mdDialog, $mdToast, $timeout, httpToolsService) {
+	.controller('trashController', function ($scope, $cookies, $mdDialog, $mdToast, $timeout, httpToolsService) {
 		var currentUserID = $cookies.getObject('current_user_id');
 
 		$scope.gridHeaderTrash = [
@@ -21,10 +21,13 @@
       }
     );
 
-		$scope.getDeletedFiles = function(){
+		$scope.getDeletedFiles = function (){
       httpToolsService.request('GET', '/documents/trash/' + currentUserID + '.json').then(
   			function success(res) {
-  				$scope.deletedFiles = res.data;
+					$timeout(function () {
+							$scope.deletedFiles = res.data;
+					}, 10);
+
   			},
 
   			function error(err) {
@@ -52,23 +55,23 @@
     $scope.restoreFile = function(item){
       httpToolsService.request('GET', '/documents/delete-or-restore/' + item.id + '.json');
 
-      $timeout(function () {
-        updateTrash();
-      }, 50);
-
       var toast = $mdToast.simple()
         .textContent('Arquivo restaurado com sucesso! (' + item.name + "." + item.extension + ')')
         .highlightAction(true)
         .highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.
         .position("top right");
 
-      $mdToast.show(toast)
+      $mdToast.show(toast);
+
+			$timeout(function () {
+				updateTrash();
+			}, 20);
 
     };
 
     var updateTrash = function (){
-			$scope.getChildren($scope.pagination.length);
 			$scope.getDeletedFiles();
+			$scope.getChildren($scope.pagination.length);
     };
 
     // $scope.deleteItems = function(content){
