@@ -1,6 +1,6 @@
 class AuthController < ApplicationController
   require 'json'
-  before_action :is_logged_in?, only: [:login]
+  before_action :is_logged_in?, only:[:login]
   layout 'api', only: [:authenticate]
 
   # POST /login

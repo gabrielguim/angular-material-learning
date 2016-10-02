@@ -1,6 +1,6 @@
 class DocumentsController < ApplicationController
   require 'json'
-  before_action :is_logged_in?, :generate_token, only: [:edit]
+  before_action :is_logged_in?, only: [:edit]
   layout 'editor', only: [:new, :edit]
 
   def index
