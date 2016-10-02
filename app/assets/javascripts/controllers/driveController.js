@@ -11,6 +11,7 @@
 
 		// sets $scope.contents
 		$scope.getChildren = function (current_root_folder_id) {
+
 			files.getChildrenFolders(current_root_folder_id).then(
 				function (res) {
 					$scope.contents = res.data;
