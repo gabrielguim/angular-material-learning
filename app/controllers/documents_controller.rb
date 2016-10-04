@@ -101,6 +101,26 @@ class DocumentsController < ApplicationController
     end
   end
 
+  def destroy
+    document = Document.find(params[:id])
+
+    if document.delete
+      render status: 200,
+             json: {
+               info: "Document deleted",
+               success: true,
+               msg: "Seu documento foi excluído com sucesso! :)"
+             }
+    else
+      render status: 200,
+             json: {
+               info: "Document not deleted",
+               success: false,
+               msg: "Houve algum problema ao excluir seu documento. Tente novamente. :("
+             }
+    end
+  end
+
   def update
     document = Document.find(params[:id])
 
