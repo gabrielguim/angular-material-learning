@@ -52,46 +52,35 @@
       });
     };
 
-    $scope.restoreFile = function(item){
-      httpToolsService.request('GET', '/documents/delete-or-restore/' + item.id + '.json');
+    $scope.restoreFile = function(item) {
+    	httpToolsService.request('GET', '/documents/delete-or-restore/' + item.id + '.json');
 
-      var toast = $mdToast.simple()
+    	var toast = $mdToast.simple()
         .textContent('Arquivo restaurado com sucesso! (' + item.name + "." + item.extension + ')')
         .highlightAction(true)
         .highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.
         .position("top right");
 
-      $mdToast.show(toast);
+    	$mdToast.show(toast);
 
-			$timeout(function () {
-				updateTrash();
-			}, 20);
+	$timeout(function () {
+		updateTrash();
+	}, 20);
 
     };
 
-    var updateTrash = function (){
+	    var updateTrash = function (){
 			$scope.getDeletedFiles();
 			$scope.getChildren($scope.pagination.length);
-    };
-
-    // $scope.deleteItems = function(content){
-    //   if (content.length === 1){
-    //     httpToolsService.request('GET', '/documents/delete-or-restore/' + item.id + '.json');
-    //   } else {
-    //
-    //   }
-    // }
-
+	    };
 
 		$scope.deleteSelectedItems = function () {
-			var _NodesArray = document.getElementById("trash").getElementsByClassName("drive-item");
-			var _DataArray = [];
+			var _NodesArray = document.getElementsByClassName("panel")[1].getElementsByClassName("drive-item");
 
-			for (var i = 0; i < _NodesArray.length - 1; i++)
-				if (_NodesArray[i].className.indexOf("selected-item") !== -1)
-					_DataArray.push($scope.deletedFiles[i]);
-
-      console.log(_DataArray);
+			// O primeiro elemento é o header da tabela, então começamos com i = 1.
+			for (var i = 1; i < _NodesArray.length - 1; i++)
+				if (_NodesArray[i].getAttribute("class").indexOf("selected-item") > -1)
+					$scope.restoreFile($scope.deletedFiles[i - 1].id);
 		};
 
 		$scope.trashIsEmpty = function (){
