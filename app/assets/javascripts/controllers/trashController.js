@@ -172,7 +172,7 @@
 
 			for (var i = 1; i < _NodesArray.length - 1; i++)
 				if (_NodesArray[i].getAttribute("class").indexOf("selected-item") > -1)
-					$scope.restoreFile($scope.deletedFiles[i - 1].id);
+					$scope.deletePermanent($scope.deletedFiles[i - 1]);
 		};
 
 		$scope.trashIsEmpty = function (){
