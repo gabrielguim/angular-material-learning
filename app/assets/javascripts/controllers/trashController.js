@@ -74,6 +74,35 @@
 			$scope.getChildren($scope.pagination.length);
     };
 
+		$scope.deletePermanentDialog = function (ev, item){
+
+			var confirm = $mdDialog.confirm()
+				.title('Excluir arquivo')
+				.textContent('Você realmente deseja excluir o arquivo ' + item.name + "." + item.extension + ' permanentemente?')
+				.ariaLabel('Excluir Arquivo')
+				.targetEvent(ev)
+				.ok('Excluir')
+				.cancel('Cancelar');
+
+			$mdDialog.show(confirm).then(function() {
+				$scope.deletePermanent(item);
+
+				var toast = $mdToast.simple()
+					.textContent("Arquivo deletado com sucesso!")
+					.highlightAction(true)
+					.highlightClass('md-accent')
+					.position("top right");
+
+				$mdToast.show(toast);
+
+				$timeout(function () {
+					updateTrash();
+				}, 20);
+			}, function() {
+
+			});
+		};
+
     // $scope.deleteItems = function(content){
     //   if (content.length === 1){
     //     httpToolsService.request('GET', '/documents/delete-or-restore/' + item.id + '.json');
@@ -82,6 +111,52 @@
     //   }
     // }
 
+		$scope.deletePermanent = function(item){
+			httpToolsService.request('DELETE', '/documents/' + item.id).then(
+				function success(res) {},
+
+				function error(err) {}
+			);
+		};
+
+		$scope.deleteAllFilesDialog = function(ev){
+
+			var confirm = $mdDialog.confirm()
+				.title('Esvaziar a lixeira')
+				.textContent('Você realmente deseja esvaziar a lixeira?')
+				.ariaLabel('Esvaziar a lixeira')
+				.targetEvent(ev)
+				.ok('Esvaziar')
+				.cancel('Cancelar');
+
+			$mdDialog.show(confirm).then(function() {
+				$scope.deleteAllFiles();
+
+				var toast = $mdToast.simple()
+					.textContent("Lixeira esvaziada com sucesso!")
+					.highlightAction(true)
+					.highlightClass('md-accent')
+					.position("top right");
+
+				$mdToast.show(toast);
+
+			}, function() {
+
+			});
+
+		};
+
+		$scope.deleteAllFiles = function(){
+			for (var i = 0; i < $scope.deletedFiles.length; i++) {
+				var currentFile = $scope.deletedFiles[i];
+				$scope.deletePermanent(currentFile);
+
+			};
+
+			$timeout(function () {
+				updateTrash();
+			}, 10);
+		};
 
 		$scope.deleteSelectedItems = function () {
 			var _NodesArray = document.getElementById("trash").getElementsByClassName("drive-item");

@@ -7,14 +7,14 @@
 	</span>
 </div>
 
-<!-- <div class="panel delete-all" ng-show="false">
+<div class="panel delete-all" ng-show="!trashIsEmpty()">
 	<span class="mdl-grid drive-item drive-item-header">
-			<button ng-click="deleteSelectedItems()" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+			<button ng-click="deleteAllFilesDialog($event)" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
 				<i class="material-icons">delete_forever</i>
-				Excluir permanentemente {{ selectedItems.length }} item(s) selecionados
+				Esvaziar Lixeira
 			</button>
 	</span>
-</div> -->
+</div>
 
 <div ng-show="trashIsEmpty()">
   <div class="layout-transparent empty-list mdl-layout mdl-js-layout">
@@ -47,6 +47,10 @@
 				<a ng-click="restoreFileDialog($event, item)">
 					<span><i class="material-icons">restore</i></span>
 					<md-tooltip>Restaurar arquivo</md-tooltip>
+				</a>
+				<a ng-click="deletePermanentDialog($event, item)">
+					<span><i class="material-icons">delete_forever</i></span>
+					<md-tooltip>Excluir permanentemente</md-tooltip>
 				</a>
 		</span>
 	</span>

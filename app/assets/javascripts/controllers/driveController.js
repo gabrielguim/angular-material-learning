@@ -89,7 +89,8 @@
 		// misc function to get the icon based on the file's type.
 		$scope.getIcon = function (item) {
 			if (item.type === 'file') return 'insert_drive_file';
-			else return 'folder';
+			else if (item.type === 'folder') return 'folder';
+			else return 'library_books';
 		};
 
 		// misc function that determines to show or not the dropdown arrow.
