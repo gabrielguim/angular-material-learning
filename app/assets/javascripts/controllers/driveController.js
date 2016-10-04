@@ -336,13 +336,6 @@
 			angular.element($('#trash')).scope().getDeletedFiles();
 		};
 
-		$scope.setPropertyDrive = function(){
-			var files = $scope.contents;
-			for (var i = 0; i < files.length; i++) {
-				files[i].selected = false;
-			}
-		};
-
 		$scope.deleteFileDialog = function (ev, file){
 			var confirm = $mdDialog.confirm()
 				.title('Excluir arquivo')
@@ -361,7 +354,7 @@
 
 		$scope.deleteFile = function(file){
 
-			httpToolsService.request('GET', '/documents/delete-or-restore/' + file.id + '.json');
+			httpToolsService.request('GET', '/documents/delete/' + file.id + '.json');
 
 			var toast = $mdToast.simple()
 				.textContent('Arquivo excluído com sucesso! (' + file.name + "." + file.extension + ')')
@@ -372,7 +365,7 @@
 
 			$mdToast.show(toast).then(function(response) {
 				if ( response == 'ok' ) {
-					httpToolsService.request('GET', '/documents/delete-or-restore/' + file.id + '.json');
+					httpToolsService.request('GET', '/documents/restore/' + file.id + '.json');
 
 					var toast = $mdToast.simple()
 						.textContent('Arquivo restaurado com sucesso! (' + file.name + "." + file.extension +  ')')
@@ -408,17 +401,35 @@
 			return $scope.contents.length === 0;
 		};
 
-		$scope.deleteSelectedItems = function () {
-			var _NodesArray = document.getElementsByClassName("panel")[0].getElementsByClassName("drive-item");
+		$scope.checkSelectedItems = function(){
+			var _NodesArray = document.getElementById("drive").getElementsByClassName("drive-item");
+			$scope.selectedItems = [];
 
-			// O primeiro elemento é o header da tabela, então começamos com i = 1.
-			for (var i = 1; i < _NodesArray.length - 1; i++)
-				if (_NodesArray[i].getAttribute("class").indexOf("selected-item") > -1)
-					$scope.restoreFile($scope.contents[i - 1].id);
+			for (var i = 1; i < _NodesArray.length; i++){
+				if (_NodesArray[i].getAttribute("class").indexOf("selected-item") > -1){
+					$scope.selectedItems.push($scope.contents[i - 1]);
+				}
+			};
+
+		};
+
+		$scope.moveSelectedItems = function () {
+
+			for (var i = 0; i < $scope.selectedItems.length; i++) {
+				var currentItem = $scope.selectedItems[i];
+				$scope.deleteFile(currentItem);
+			};
+
+
+			$timeout(function () {
+				update($scope.currentFolder);
+			}, 30);
+
 		};
 
 	});
 })();
+
 
 function DialogController($scope, $mdDialog) {
 

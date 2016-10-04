@@ -52,15 +52,25 @@ class DocumentsController < ApplicationController
     end
   end
 
-  def toggle_deleted
+  def move_to_trash
     document = Document.find(params[:id])
-    document.deleted = !document.deleted
+    document.deleted = true
+    msg = "Documento movido para a lixeira com sucesso :)"
 
-    if document.deleted
-      msg = "Documento movido para a lixeira com sucesso :)"
-    else
-      msg = "Documento restaurado com sucesso :)"
+    if document.save
+      render status: 200,
+             json: {
+               info: "Document remove property toggled",
+               success: true,
+               msg: msg
+             }
     end
+  end
+
+  def restore_from_trash
+    document = Document.find(params[:id])
+    document.deleted = false
+    msg = "Documento restaurado com sucesso :)"
 
     if document.save
       render status: 200,

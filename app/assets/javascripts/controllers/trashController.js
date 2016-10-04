@@ -53,7 +53,7 @@
     };
 
     $scope.restoreFile = function(item){
-      httpToolsService.request('GET', '/documents/delete-or-restore/' + item.id + '.json');
+      httpToolsService.request('GET', '/documents/restore/' + item.id + '.json');
 
       var toast = $mdToast.simple()
         .textContent('Arquivo restaurado com sucesso! (' + item.name + "." + item.extension + ')')
@@ -158,21 +158,57 @@
 			}, 10);
 		};
 
-		$scope.deleteSelectedItems = function () {
+		$scope.checkSelectedItemsInTrash = function(){
 			var _NodesArray = document.getElementById("trash").getElementsByClassName("drive-item");
-			var _DataArray = [];
+			$scope.selectedItems = [];
 
-			for (var i = 0; i < _NodesArray.length - 1; i++)
-				if (_NodesArray[i].className.indexOf("selected-item") !== -1)
-					_DataArray.push($scope.deletedFiles[i]);
-			var _NodesArray = document.getElementsByClassName("panel")[1].getElementsByClassName("drive-item");
+			for (var i = 1; i < _NodesArray.length; i++){
+				if (_NodesArray[i].getAttribute("class").indexOf("selected-item") > -1){
+					$scope.selectedItems.push($scope.deletedFiles[i - 1]);
+				}
+			};
 
-      console.log(_DataArray);
-			// O primeiro elemento é o header da tabela, então começamos com i = 1.
+		};
 
-			for (var i = 1; i < _NodesArray.length - 1; i++)
-				if (_NodesArray[i].getAttribute("class").indexOf("selected-item") > -1)
-					$scope.deletePermanent($scope.deletedFiles[i - 1]);
+		$scope.restoreSelectedItems = function () {
+			for (var i = 0; i < $scope.selectedItems.length; i++) {
+				var currentItem = $scope.selectedItems[i];
+				$scope.restoreFile(currentItem);
+			};
+
+			var toast = $mdToast.simple()
+				.textContent('Arquivos restaurados com sucesso!')
+				.highlightAction(true)
+				.highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.
+				.position("top right");
+
+			$mdToast.show(toast);
+
+			$timeout(function () {
+				updateTrash();
+			}, 50);
+
+		};
+
+
+		$scope.deleteSelectedItems = function () {
+			for (var i = 0; i < $scope.selectedItems.length; i++) {
+				var currentItem = $scope.selectedItems[i];
+				$scope.deletePermanent(currentItem);
+			};
+
+			var toast = $mdToast.simple()
+				.textContent('Arquivos excluídos permanentemente!')
+				.highlightAction(true)
+				.highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.
+				.position("top right");
+
+			$mdToast.show(toast);
+
+			$timeout(function () {
+				updateTrash();
+			}, 50);
+
 		};
 
 		$scope.trashIsEmpty = function (){

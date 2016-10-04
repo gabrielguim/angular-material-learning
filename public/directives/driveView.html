@@ -8,18 +8,27 @@
 	</span>
 </div>
 
+
+<div class="panel delete-all" ng-show="!driveIsEmpty()">
+	<span class="mdl-grid drive-item drive-item-header">
+			<button ng-click="moveSelectedItems()" ng-show="selectedItems.length > 1" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+				<i class="material-icons">delete_forever</i>
+				Mover os itens selecionados para a lixeira
+			</button>
+	</span>
+</div>
+
 <div ng-show="driveIsEmpty()">
   <div class="layout-transparent empty-list mdl-layout mdl-js-layout">
     <main>
       <img class="empty-logo" src="imgs/logo.png"/>
     </main>
     <span class="empty-text">Você não possui nenhum arquivo criado na pasta {{ currentFolder.name }}. </span>
-
   </div>
 </div>
 
 <!-- container do drive -->
-<div id="drive" class="panel" ng-show="!driveIsEmpty()">
+<div id="drive" class="panel" ng-show="!driveIsEmpty()"  ng-mouseover="checkSelectedItems()">
 	<!-- header da lista de arquivos -->
 	<span class="mdl-grid drive-item drive-item-header">
 		<span ng-repeat="property in gridHeaderDrive" class="mdl-cell mdl-cell--{{ property.col }}-col">
@@ -30,7 +39,7 @@
 
 	<!-- lista de arquivos dentro da pasta atual sendo visitada -->
 	<span class="mdl-grid drive-item" ng-repeat="item in contents track by $index" multiple-selection-item
-		ng-class="{'selecting-item': isSelecting ,'selected-item': isSelected}"
+		ng-class="{'selecting-item': isSelecting && item.type === 'file' ,'selected-item': isSelected && item.type === 'file' }"
 			ng-click="fileAction(item)">
 
 		<span class="mdl-cell mdl-cell--5-col">

@@ -9,17 +9,21 @@
 
 <div class="panel delete-all" ng-show="!trashIsEmpty()">
 	<span class="mdl-grid drive-item drive-item-header">
-			<button ng-click="deleteAllFilesDialog($event)" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+			<button ng-click="deleteAllFilesDialog($event)" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-button_ofleft">
 				<i class="material-icons">delete_forever</i>
 				Esvaziar Lixeira
 			</button>
 
-			<span flex="5"></span>
-
-			<button ng-click="deleteSelectedItems($event)" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+			<button ng-click="deleteSelectedItems()" ng-show="selectedItems.length > 1" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored  mdl-button_ofleft">
 				<i class="material-icons">delete_forever</i>
 				Excluir permanentemente os itens selecionados
 			</button>
+
+			<button ng-click="restoreSelectedItems()" ng-show="selectedItems.length > 1" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+				<i class="material-icons">delete_forever</i>
+				Restaurar os itens selecionados
+			</button>
+
 	</span>
 </div>
 
@@ -34,7 +38,7 @@
 </div>
 
 <!-- container do drive -->
-<div id="trash" class="panel row" ng-show="!trashIsEmpty()">
+<div id="trash" class="panel row" ng-show="!trashIsEmpty()"  ng-mouseover="checkSelectedItemsInTrash()">
 	<!-- header da lista de arquivos -->
 	<span class="mdl-grid drive-item drive-item-header">
 		<span ng-repeat="property in gridHeaderTrash" class="mdl-cell mdl-cell--{{ property.col }}-col">
