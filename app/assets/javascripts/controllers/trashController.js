@@ -165,8 +165,14 @@
 			for (var i = 0; i < _NodesArray.length - 1; i++)
 				if (_NodesArray[i].className.indexOf("selected-item") !== -1)
 					_DataArray.push($scope.deletedFiles[i]);
+			var _NodesArray = document.getElementsByClassName("panel")[1].getElementsByClassName("drive-item");
 
       console.log(_DataArray);
+			// O primeiro elemento é o header da tabela, então começamos com i = 1.
+
+			for (var i = 1; i < _NodesArray.length - 1; i++)
+				if (_NodesArray[i].getAttribute("class").indexOf("selected-item") > -1)
+					$scope.restoreFile($scope.deletedFiles[i - 1].id);
 		};
 
 		$scope.trashIsEmpty = function (){
