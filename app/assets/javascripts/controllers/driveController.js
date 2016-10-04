@@ -407,6 +407,15 @@
 			return $scope.contents.length === 0;
 		};
 
+		$scope.deleteSelectedItems = function () {
+			var _NodesArray = document.getElementsByClassName("panel")[0].getElementsByClassName("drive-item");
+
+			// O primeiro elemento é o header da tabela, então começamos com i = 1.
+			for (var i = 1; i < _NodesArray.length - 1; i++)
+				if (_NodesArray[i].getAttribute("class").indexOf("selected-item") > -1)
+					$scope.restoreFile($scope.contents[i - 1].id);
+		};
+
 	});
 })();
 
