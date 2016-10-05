@@ -468,7 +468,7 @@
 		$scope.deleteFileDialog = function (ev, file){
 			var confirm = $mdDialog.confirm()
 				.title('Excluir arquivo')
-				.textContent('Você realmente deseja mover o arquivo ' + file.name + "." + file.extension+ ' para a lixeira?')
+				.textContent('Você realmente deseja mover o arquivo ' + file.name + "." + file.extension.split('/')[0] + ' para a lixeira?')
 				.ariaLabel('Excluir Arquivo')
 				.targetEvent(ev)
 				.ok('Deletar')
@@ -486,7 +486,7 @@
 			httpToolsService.request('GET', '/documents/delete/' + file.id + '.json');
 
 			var toast = $mdToast.simple()
-				.textContent('Arquivo excluído com sucesso! (' + file.name + "." + file.extension + ')')
+				.textContent('Arquivo excluído com sucesso! (' + file.name + "." + file.extension.split('/')[0] + ')')
 				.action('DESFAZER')
 				.highlightAction(true)
 				.highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.
@@ -497,7 +497,7 @@
 					httpToolsService.request('GET', '/documents/restore/' + file.id + '.json');
 
 					var toast = $mdToast.simple()
-						.textContent('Arquivo restaurado com sucesso! (' + file.name + "." + file.extension +  ')')
+						.textContent('Arquivo restaurado com sucesso! (' + file.name + "." + file.extension.split('/')[0] +  ')')
 						.highlightAction(true)
 						.highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.
 						.position("top right");
@@ -595,7 +595,7 @@ function DialogCompressController($scope, $mdDialog){
 		if (answer.type === 'gzip'){
 			answer.type = 'gz';
 		}
-		
+
 		$mdDialog.hide(answer);
 	};
 }

@@ -39,7 +39,7 @@
     $scope.restoreFileDialog = function(ev, item){
       var confirm = $mdDialog.confirm()
         .title('Restaurar arquivo')
-        .textContent('Você realmente deseja restaurar o arquivo ' + item.name + "." + item.extension + '?')
+        .textContent('Você realmente deseja restaurar o arquivo ' + item.name + "." + item.extension.split('/')[0] + '?')
         .ariaLabel('Restaurar Arquivo')
         .targetEvent(ev)
         .ok('Restaurar')
@@ -56,7 +56,7 @@
       httpToolsService.request('GET', '/documents/restore/' + item.id + '.json');
 
       var toast = $mdToast.simple()
-        .textContent('Arquivo restaurado com sucesso! (' + item.name + "." + item.extension + ')')
+        .textContent('Arquivo restaurado com sucesso! (' + item.name + "." + item.extension.split('/')[0] + ')')
         .highlightAction(true)
         .highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.
         .position("top right");
@@ -69,6 +69,14 @@
 
     };
 
+		$scope.getIcon = function (item) {
+			if (item.extension !== 'txt' && item.extension !== 'md'){
+				return 'library_books';
+			}	else {
+				return 'insert_drive_file';
+			}
+		};
+
     var updateTrash = function (){
 			$scope.getDeletedFiles();
 			$scope.getChildren($scope.pagination.length);
@@ -78,7 +86,7 @@
 
 			var confirm = $mdDialog.confirm()
 				.title('Excluir arquivo')
-				.textContent('Você realmente deseja excluir o arquivo ' + item.name + "." + item.extension + ' permanentemente?')
+				.textContent('Você realmente deseja excluir o arquivo ' + item.name + "." + item.extension.split('/')[0] + ' permanentemente?')
 				.ariaLabel('Excluir Arquivo')
 				.targetEvent(ev)
 				.ok('Excluir')
