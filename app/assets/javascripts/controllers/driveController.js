@@ -398,7 +398,7 @@
 			$mdDialog.show(confirm).then(function(result) {
 				$scope.decompressFile(item);
 			}, function() {
-				
+
 			});
 		};
 
@@ -591,6 +591,11 @@ function DialogCompressController($scope, $mdDialog){
 
 	$scope.answer = function() {
 		var answer = { type: $scope.compressionType.toLowerCase() };
+
+		if (answer.type === 'gzip'){
+			answer.type = 'gz';
+		}
+		
 		$mdDialog.hide(answer);
 	};
 }
