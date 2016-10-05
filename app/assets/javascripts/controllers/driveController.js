@@ -69,12 +69,16 @@
 		};
 
 		// action() when a file or folder is clicked on the list.
-		$scope.fileAction = function (item) {
+		$scope.fileAction = function (ev, item) {
 
 			if (item.type === 'file'){
 				if (item.selected){
-					httpToolsService.redirect('/documents/' + item.id + '/edit/');
-					return;
+					if (item.extension === 'txt' || item.extension === 'md'){
+						httpToolsService.redirect('/documents/' + item.id + '/edit/');
+						return;
+					} else if (item.extension !== 'txt' && item.extension !== 'md') {
+						$scope.showCompressContentDialog(ev, item);
+					}
 				}
 			} else {
 				if (item.selected){
@@ -88,9 +92,13 @@
 
 		// misc function to get the icon based on the file's type.
 		$scope.getIcon = function (item) {
-			if (item.type === 'file') return 'insert_drive_file';
-			else if (item.type === 'folder') return 'folder';
-			else return 'library_books';
+			if (item.type === 'file') {
+				if (item.extension !== 'txt' && item.extension !== 'md'){
+					return 'library_books';
+				}	else {
+					return 'insert_drive_file';
+				}
+			} else return 'folder';
 		};
 
 		// misc function that determines to show or not the dropdown arrow.
@@ -309,6 +317,127 @@
 	    });
 		};
 
+		$scope.showCompressContentDialog = function(ev, item) {
+
+			files.setDocumentToShow(item);
+
+			$mdDialog.show({
+				controller: DialogShowCompressController,
+				templateUrl: '../directives/compressionList.html',
+				parent: angular.element(document.body),
+				targetEvent: ev,
+				clickOutsideToClose:false,
+			})
+			.then(function(answer) {
+				$scope.decompressFileDialog(ev, item);
+	    }, function() {
+
+	    });
+		};
+
+
+		$scope.compressFileDialog = function(ev, item) {
+			$mdDialog.show({
+				controller: DialogCompressController,
+				templateUrl: '../directives/compressDialog.html',
+				parent: angular.element(document.body),
+				targetEvent: ev,
+				clickOutsideToClose:false,
+			})
+			.then(function(answer) {
+				$scope.compressFile(item, answer);
+	    }, function() {
+
+	    });
+		};
+
+		$scope.compressFile = function (item, answer){
+			var token = $('meta[name=csrf-token]').attr("content");
+			var lastExtension = answer.type;
+			var config = {
+				authenticity_token: token,
+				file: {
+					name: item.name,
+					extension: answer.type + '/' + item.extension,
+					content: item.content,
+					folder_id: $scope.currentFolder.id,
+					user_id: $scope.currentUser.id
+				}
+			};
+
+			httpToolsService.request('POST', '/documents', config).then(
+				function (res) {
+					if (res.data.success){
+						$timeout(function () {
+							update($scope.currentFolder);
+						}, 50);
+
+						$mdToast.show(
+							$mdToast.simple()
+								.textContent("O arquivo " + item.name +'.'+ lastExtension + " foi comprimido com sucesso! :)")
+								.position("top right")
+								.hideDelay(3000)
+						);
+					}
+				},
+
+				function (err) { console.log(err) }
+			);
+
+		};
+
+		$scope.decompressFileDialog = function(ev, item) {
+			var confirm = $mdDialog.confirm()
+				.title('Descompactar Arquivo')
+				.textContent('Você realmente deseja descompactar o arquivo ' + item.name +'.'+ item.extension.split('/')[0] + '?')
+				.ariaLabel('Descompactar Arquivo')
+				.targetEvent(ev)
+				.ok('Descompactar')
+				.cancel('Cancelar');
+
+			$mdDialog.show(confirm).then(function(result) {
+				$scope.decompressFile(item);
+			}, function() {
+				
+			});
+		};
+
+
+		$scope.decompressFile = function(item){
+			var token = $('meta[name=csrf-token]').attr("content");
+			var config = {
+				authenticity_token: token,
+				file: {
+					name: item.name,
+					extension: item.extension.split('/')[1],
+					content: item.content,
+					folder_id: $scope.currentFolder.id,
+					user_id: $scope.currentUser.id
+				}
+			};
+
+			httpToolsService.request('POST', '/documents', config).then(
+				function (res) {
+					if (res.data.success){
+						$timeout(function () {
+							update($scope.currentFolder);
+						}, 50);
+
+						$mdToast.show(
+							$mdToast.simple()
+								.textContent("O arquivo " + item.name +'.'+ item.extension.split('/')[0] + " foi descompactado com sucesso! :)")
+								.position("top right")
+								.hideDelay(3000)
+						);
+					}
+				},
+
+				function (err) { console.log(err) }
+			);
+
+		};
+
+
 		$scope.renameItemDialog = function(ev, item) {
 			var confirm = $mdDialog.prompt()
 				.title('Renomear')
@@ -430,6 +559,41 @@
 	});
 })();
 
+
+function DialogShowCompressController(files, $scope, $mdDialog){
+
+	$scope.file = files.getDocumentToShow();
+
+	$scope.hide = function() {
+		$mdDialog.hide();
+	};
+
+	$scope.cancel = function() {
+		$mdDialog.cancel();
+	};
+
+	$scope.answer = function() {
+		$mdDialog.hide();
+	};
+}
+
+function DialogCompressController($scope, $mdDialog){
+
+	$scope.compressionType = "ZIP";
+
+	$scope.hide = function() {
+		$mdDialog.hide();
+	};
+
+	$scope.cancel = function() {
+		$mdDialog.cancel();
+	};
+
+	$scope.answer = function() {
+		var answer = { type: $scope.compressionType.toLowerCase() };
+		$mdDialog.hide(answer);
+	};
+}
 
 function DialogController($scope, $mdDialog) {
 

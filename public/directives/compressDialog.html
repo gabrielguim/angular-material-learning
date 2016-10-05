@@ -1,0 +1,30 @@
+<md-dialog aria-label="Comprimir Arquivo">
+  <form>
+    <h5 class="dialog-title">Comprimir Arquivo</h5>
+    <md-dialog-content>
+      <div class="md-dialog-content dialog-box">
+        <p>
+          Escolha .zip ou .gzip para o tipo de compressão do seu arquivo.
+        </p>
+
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Tipo de Compressão:</label>
+          <md-select ng-model="compressionType">
+            <md-option value="ZIP">ZIP</md-option>
+            <md-option value="GZIP">GZIP</md-option>
+          </md-select>
+        </md-input-container>
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button class="md-primary" ng-click="cancel()">
+        Cancelar
+      </md-button>
+      <span flex></span>
+      <md-button class="md-primary" ng-click="answer()">
+        Comprimir
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

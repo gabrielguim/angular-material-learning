@@ -40,21 +40,29 @@
 	<!-- lista de arquivos dentro da pasta atual sendo visitada -->
 	<span class="mdl-grid drive-item" ng-repeat="item in contents track by $index" multiple-selection-item
 		ng-class="{'selecting-item': isSelecting && item.type === 'file' ,'selected-item': isSelected && item.type === 'file' }"
-			ng-click="fileAction(item)">
+			ng-click="fileAction($event, item)">
 
 		<span class="mdl-cell mdl-cell--5-col">
 			<i class="material-icons">{{ getIcon(item) }}</i>
-			{{ item.name }}<span ng-show="item.type === 'zip'">{{ item.type }}</span><span ng-show="item.type === 'file'">.{{ item.extension }}</span>
+			{{ item.name }}<span ng-show="item.type === 'file'">.{{ item.extension.split('/')[0]}}</span>
 		</span>
 		<span class="mdl-cell mdl-cell--5-col">{{ item.updated_at | date}}</span>
 		<span class="mdl-cell mdl-cell--2-col">
-				<a ng-click="shareFileDialog($event, item)" ng-show="item.type === 'file'">
+				<a ng-click="shareFileDialog($event, item)" ng-show="item.extension === 'txt' || item.extension === 'md'">
 					<span><i class="material-icons">share</i></span>
 					<md-tooltip>Compartilhar</md-tooltip>
 				</a>
 				<a ng-click="renameItemDialog($event, item)" >
 					<span ><i class="material-icons">edit</i></span>
 					<md-tooltip>Renomear</md-tooltip>
+				</a>
+				<a ng-click="compressFileDialog($event, item)" ng-show="item.extension === 'txt' || item.extension === 'md'">
+					<span><i class="material-icons">archive</i></span>
+					<md-tooltip>Compactar</md-tooltip>
+				</a>
+				<a ng-click="decompressFileDialog($event, item)" ng-show="item.extension.split('/')[0] === 'zip' || item.extension.split('/')[0] === 'gzip'">
+					<span><i class="material-icons">unarchive</i></span>
+					<md-tooltip>Descompactar</md-tooltip>
 				</a>
 				<a ng-click="deleteFileDialog($event, item)" ng-show="item.type === 'file'">
 					<span><i class="material-icons">delete</i></span>
